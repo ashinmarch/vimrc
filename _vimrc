@@ -30,7 +30,7 @@ highlight ErrorMsg ctermbg=red guibg=red ctermfg=yellow guifg=yellow cterm=bold
 
 
 behave mswin
-"map <F11> <Esc>:call libcallnr(“gvimfullscreen.dll? “ToggleFullScreen? 0)<CR>
+"map <F11> <Esc>:call libcallnr(ï¿½gvimfullscreen.dll? ï¿½ToggleFullScreen? 0)<CR>
 
 if exists('+colorcolumn')
   set colorcolumn=81
@@ -87,3 +87,9 @@ nnoremap <C-t>     :tabnew<CR>
 inoremap <C-S-tab> <Esc>:tabprevious<CR>i
 inoremap <C-tab>   <Esc>:tabnext<CR>i
 inoremap <C-t>     <Esc>:tabnew<CR>
+
+nnoremap tp :tabprev<CR>
+nnoremap tn :tabnext<CR>
+nnoremap tf :tabfirst<CR>
+nnoremap tl :tablast<CR>
+nnoremap tl :tablast<CR>
