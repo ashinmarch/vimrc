@@ -88,6 +88,7 @@ inoremap <C-S-tab> <Esc>:tabprevious<CR>i
 inoremap <C-tab>   <Esc>:tabnext<CR>i
 inoremap <C-t>     <Esc>:tabnew<CR>
 
+" also use <num>gt or gT
 nnoremap tp :tabprev<CR>
 nnoremap tn :tabnext<CR>
 nnoremap tf :tabfirst<CR>
