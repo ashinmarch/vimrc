@@ -94,3 +94,10 @@ nnoremap tn :tabnext<CR>
 nnoremap tf :tabfirst<CR>
 nnoremap tl :tablast<CR>
 nnoremap tl :tablast<CR>
+
+" abbreviate
+:ab #i #include
+:ab #d #define
+:ab #b /************************************************
+:ab #e <Space>**********************************************/
+:ab #l /*----------------------------------------------*/
