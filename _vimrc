@@ -1,103 +1,183 @@
 set nocompatible
-set mouse=a
-set guifont=courier_new:h10
-set expandtab
-set shiftwidth=4
-set tabstop=4
-set showmatch
-set autoindent
-set smartindent
-set paste
-"set nowrap
-set number
+" Intialization for pathogen
+" call pathogen#infect()
+" call pathogen#helptags()
+runtime! config/**/*.vim
+map <C-n> :NERDTreeToggle<CR>
+map <C-m> :ConqueTermSplit bash<CR>
+
+"colors
+colorscheme desert
 syntax enable
 syntax on
+
+"spaces & tabs
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+set expandtab
+
+"ui config
+set number
+set showcmd
+"set cursorline
+filetype indent on
+filetype plugin indent on
+set autoindent
+set smartindent
+set wildmenu
+set lazyredraw
+set showmatch
+
+"searching
+set incsearch
+set hlsearch
+" turn off search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+
+"folding. press za to toggle
+" set foldenable
+" set foldlevelstart=5
+" set foldnestmax=10
+" set foldmethod=indent
+" differnt way:
+" set foldmethod=marker
+" set foldlevel=0
+" set modelines=1
+
+"Mac - Copy to clipboard
+vmap <C-x> :!pbcopy<CR>  
+vmap <C-c> :w !pbcopy<CR><CR> 
+
+"movement
+" move vertically by visual line
+nnoremap j gj
+nnoremap k gk
+" highlight last inserted text
+nnoremap gV `[v`]
+
+"leader shortcut
+let mapleader=","  " leader is comma
+inoremap jk <esc>
+" install plugin gundo.vim for undo tree
+nnoremap <leader>u :GundoToggle<CR>
+" edit vimrc/zshrc and load vimrc bindings
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>eb :vsp ~/.bashrc<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+" save session
+nnoremap <leader>s :mksession<CR>
+" open ag.vim. install plugin ag.vim 
+nnoremap <leader>a :Ag
+" CtrlP settings. Install ctrlp.vim for fuzzy file search
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+"set nowrap
 "setlocal spell spelllang=en
-colorscheme desert
 "set encoding=utf-8
 "set fileencodings=utf-8,gb18030,utf-16,big5
 "set langmenu=zh_CN.UTF-8
 "language message zh_CN.UTF-8
 "set fencs=utf-8
 "set termencoding=cp936
+"set mouse=a
+"set paste
 set tags=$VIMRUNTIME/tags
 set autochdir
-source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
+" source $VIMRUNTIME/vimrc_example.vim
+" source $VIMRUNTIME/mswin.vim
 
 "Personal Highlighting
 highlight ErrorMsg ctermbg=red guibg=red ctermfg=yellow guifg=yellow cterm=bold
 
-
-behave mswin
-"map <F11> <Esc>:call libcallnr(�gvimfullscreen.dll? �ToggleFullScreen? 0)<CR>
+"Personal settings
+" Add quote for a word"
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 
 if exists('+colorcolumn')
-  set colorcolumn=81
+  set colorcolumn=101
 else
-  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>100v.\+', -1)
 endif
 
 "informative status line
 set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 
-set diffexpr=MyDiff()
-function MyDiff()
-  let opt = '-a --binary '
-  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  let eq = ''
-  if $VIMRUNTIME =~ ' '
-    if &sh =~ '\<cmd'
-      let cmd = '""' . $VIMRUNTIME . '\diff"'
-      let eq = '"'
-    else
-      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-    endif
-  else
-    let cmd = $VIMRUNTIME . '\diff'
-  endif
-  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-endfunction
-
-"Ctrl+F2 to toggle or remove menu & toolbar
-map <silent> <C-F2> :if &guioptions =~# 'T' <Bar>
-        \set guioptions-=T <Bar>
-        \set guioptions-=m <bar>
-    \else <Bar>
-        \set guioptions+=T <Bar>
-        \set guioptions+=m <Bar>
-    \endif<CR>
-
-
-:amenu <silent> Tabs.&Next :tabnext<cr>
-:amenu <silent> Tabs.&Previous :tabprevious<cr>
-
-" tab navigation like firefox
-nnoremap <C-S-tab> :tabprevious<CR>
-nnoremap <C-tab>   :tabnext<CR>
-nnoremap <C-t>     :tabnew<CR>
-inoremap <C-S-tab> <Esc>:tabprevious<CR>i
-inoremap <C-tab>   <Esc>:tabnext<CR>i
-inoremap <C-t>     <Esc>:tabnew<CR>
-
 " also use <num>gt or gT
 nnoremap tp :tabprev<CR>
 nnoremap tn :tabnext<CR>
 nnoremap tf :tabfirst<CR>
 nnoremap tl :tablast<CR>
-nnoremap tl :tablast<CR>
 
-" abbreviate
-:ab #i #include
-:ab #d #define
-:ab #b /************************************************
-:ab #e <Space>**********************************************/
-:ab #l /*----------------------------------------------*/
+" Set gvim gui font
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 12
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h14
+  elseif has("gui_win32")
+    set guifont=Consolas:h10:cANSI
+  endif
+endif
+
+"set diffexpr=MyDiff()
+"function MyDiff()
+"  let opt = '-a --binary '
+"  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+"  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+"  let arg1 = v:fname_in
+"  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+"  let arg2 = v:fname_new
+"  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+"  let arg3 = v:fname_out
+"  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+"  let eq = ''
+"  if $VIMRUNTIME =~ ' '
+"    if &sh =~ '\<cmd'
+"      let cmd = '""' . $VIMRUNTIME . '\diff"'
+"      let eq = '"'
+"    else
+"      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+"    endif
+"  else
+"    let cmd = $VIMRUNTIME . '\diff'
+"  endif
+"  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+"endfunction
+"
+""Ctrl+F2 to toggle or remove menu & toolbar
+"map <silent> <C-F2> :if &guioptions =~# 'T' <Bar>
+"        \set guioptions-=T <Bar>
+"        \set guioptions-=m <bar>
+"    \else <Bar>
+"        \set guioptions+=T <Bar>
+"        \set guioptions+=m <Bar>
+"    \endif<CR>
+"
+"
+":amenu <silent> Tabs.&Next :tabnext<cr>
+":amenu <silent> Tabs.&Previous :tabprevious<cr>
+"
+"" tab navigation like firefox
+"nnoremap <C-S-tab> :tabprevious<CR>
+"nnoremap <C-tab>   :tabnext<CR>
+"nnoremap <C-t>     :tabnew<CR>
+"inoremap <C-S-tab> <Esc>:tabprevious<CR>i
+"inoremap <C-tab>   <Esc>:tabnext<CR>i
+"inoremap <C-t>     <Esc>:tabnew<CR>
+"
+"
+"" abbreviate
+":ab #i #include
+":ab #d #define
+":ab #b /************************************************
+":ab #e <Space>**********************************************/
+":ab #l /*----------------------------------------------*/
+"
+" source $LOCAL_ADMIN_SCRIPTS/master.vimrc
